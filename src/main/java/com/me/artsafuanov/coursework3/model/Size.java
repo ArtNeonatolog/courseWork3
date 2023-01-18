@@ -1,5 +1,8 @@
 package com.me.artsafuanov.coursework3.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum Size {
     XS (36),
     S (38),
@@ -8,6 +11,16 @@ public enum Size {
     XL (44),
     XXL (46);
 
-    Size(Integer integer) {
+    private Integer size;
+    Size(Integer size) {
+        this.size = size;
+    }
+
+    public Integer getSize() {
+        return size;
+    }
+
+    public void setSize(Integer size) {
+        this.size = size;
     }
 }
