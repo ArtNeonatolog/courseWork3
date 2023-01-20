@@ -1,7 +1,8 @@
 package com.me.artsafuanov.coursework3.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum Size {
     XS (36),
@@ -22,5 +23,14 @@ public enum Size {
 
     public void setSize(Integer size) {
         this.size = size;
+    }
+    @JsonCreator
+    public static Size forValues(@JsonProperty("размер") Integer value) {
+        for (Size size : Size.values()) {
+            if (value == size.size) {
+                return size;
+            }
+        }
+        return null;
     }
 }

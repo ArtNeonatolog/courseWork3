@@ -3,6 +3,8 @@ package com.me.artsafuanov.coursework3.dto;
 import com.me.artsafuanov.coursework3.model.Color;
 import com.me.artsafuanov.coursework3.model.Size;
 
+import java.util.Objects;
+
 public class SocksRequest {
     private Color color;
 
@@ -51,4 +53,16 @@ public class SocksRequest {
         this.cottonPart = cottonPart;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SocksRequest that = (SocksRequest) o;
+        return color == that.color && size == that.size && Objects.equals(cottonPart, that.cottonPart) && Objects.equals(quantity, that.quantity);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(color, size, cottonPart, quantity);
+    }
 }
