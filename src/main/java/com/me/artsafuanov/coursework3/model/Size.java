@@ -27,7 +27,7 @@ public enum Size {
     @JsonCreator
     public static Size forValues(@JsonProperty("размер") Integer value) {
         for (Size size : Size.values()) {
-            if (value == size.size) {
+            if (size.size.equals(value)) {
                 return size;
             }
         }
