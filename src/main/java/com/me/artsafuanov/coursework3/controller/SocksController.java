@@ -1,5 +1,4 @@
 package com.me.artsafuanov.coursework3.controller;
-
 import com.me.artsafuanov.coursework3.dto.SocksRequest;
 import com.me.artsafuanov.coursework3.exception.InsufficientSocksQuantityException;
 import com.me.artsafuanov.coursework3.exception.InvalidSocksException;
@@ -11,9 +10,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/socks")

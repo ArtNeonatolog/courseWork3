@@ -1,5 +1,4 @@
 package com.me.artsafuanov.coursework3.dto;
-
 import com.me.artsafuanov.coursework3.model.Color;
 import com.me.artsafuanov.coursework3.model.Size;
 

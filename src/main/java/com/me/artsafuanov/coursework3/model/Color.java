@@ -15,29 +15,27 @@ public enum Color {
     GREEN ("зеленый"),
     BLACK ("черный");
 
-    private String color;
+    private final String strValue;
 
     Color(String color) {
-        this.color = color;
+
+        this.strValue = color;
     }
 
-    public String getColor() {
-        return color;
-    }
+    @JsonValue
+    public String getStrValue() {
 
-    public void setColor(String color) {
-        this.color = color;
+        return this.strValue;
     }
 
     @JsonCreator
-    public static Color forValues(@JsonProperty("цвет") String value) {
+    public static Color forValues(String value) {
         for (Color color : Color.values()) {
-            if (color.color.equals(value)) {
+            if (color.getStrValue().equals(value)) {
                 return color;
             }
         }
         return null;
     }
-
 
 }
