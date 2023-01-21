@@ -8,6 +8,7 @@ import com.me.artsafuanov.coursework3.model.Socks;
 import com.me.artsafuanov.coursework3.service.SocksService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
