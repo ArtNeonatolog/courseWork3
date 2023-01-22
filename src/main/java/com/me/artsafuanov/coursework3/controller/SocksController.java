@@ -4,11 +4,9 @@ import com.me.artsafuanov.coursework3.exception.InsufficientSocksQuantityExcepti
 import com.me.artsafuanov.coursework3.exception.InvalidSocksException;
 import com.me.artsafuanov.coursework3.model.Color;
 import com.me.artsafuanov.coursework3.model.Size;
-import com.me.artsafuanov.coursework3.model.Socks;
 import com.me.artsafuanov.coursework3.service.SocksService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,7 +49,6 @@ public class SocksController {
                                     @RequestParam(required = false, name = "cottonMax") Integer cottonMax) {
         return socksService.getSocksQuantity(color, size, cottonMin, cottonMax);
     }
-
     @PutMapping
     @Operation(
             summary = "Отпуск товара (носков) со склада",
@@ -67,6 +64,4 @@ public class SocksController {
     public void removeDefectSocks (@RequestBody SocksRequest socksRequest) {
         socksService.removeDefectSocks(socksRequest);
     }
-
-
 }

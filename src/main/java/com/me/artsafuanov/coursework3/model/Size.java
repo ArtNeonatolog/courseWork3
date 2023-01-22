@@ -2,7 +2,6 @@ package com.me.artsafuanov.coursework3.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonValue;
-
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum Size {
     XS (36),
@@ -14,10 +13,8 @@ public enum Size {
 
     private final Integer intValue;
     Size(Integer size) {
-
         this.intValue = size;
     }
-
     @JsonValue
     public Integer getIntValue() {
         return this.intValue;

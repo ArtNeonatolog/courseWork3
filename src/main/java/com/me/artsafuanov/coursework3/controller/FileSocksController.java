@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.*;
-
 @RestController
 @RequestMapping("/files/socks")
 @Tag(name = "Товар (носки) - работа с файлами", description = "Можно загружать, скачивать данные о товаре на складе")

@@ -1,18 +1,11 @@
 package com.me.artsafuanov.coursework3.service.impl;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.me.artsafuanov.coursework3.dto.SocksRequest;
 import com.me.artsafuanov.coursework3.service.FileSockService;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Value;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
-
 @Service
 public class FileSockServiceImpl implements FileSockService {
     @Value("${path.to.socks.file}")

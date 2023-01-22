@@ -18,13 +18,10 @@ public enum Color {
     private final String strValue;
 
     Color(String color) {
-
         this.strValue = color;
     }
-
     @JsonValue
     public String getStrValue() {
-
         return this.strValue;
     }
 

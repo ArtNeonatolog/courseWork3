@@ -22,14 +22,14 @@ import java.util.Map;
 
 @Service
 public class SocksServiceImpl implements SocksService {
-
     private final Map<Socks, Integer> mapOfSocks = new HashMap<>();
-
     private final FileSockServiceImpl fileSockService;
-
-    public SocksServiceImpl(FileSockServiceImpl fileSockService) {
+    private final AuditServiceImpl auditService;
+    public SocksServiceImpl(FileSockServiceImpl fileSockService, AuditServiceImpl auditService) {
         this.fileSockService = fileSockService;
+        this.auditService = auditService;
     }
+
     @PostConstruct
     private void init() {
         try {
@@ -38,8 +38,6 @@ public class SocksServiceImpl implements SocksService {
             e.printStackTrace();
         }
     }
-
-
     @Override
     public void addSocks(SocksRequest socksRequest) {
         validateRequest(socksRequest);
@@ -49,18 +47,20 @@ public class SocksServiceImpl implements SocksService {
         }else {
             mapOfSocks.put(socks, socksRequest.getQuantity());
             saveToFile();
+            auditService.recordAddOperation(socks, socksRequest.getQuantity());
         }
     }
     @Override
     public void outputSocks(SocksRequest socksRequest) {
-        decreaseSocks(socksRequest);
+        decreaseSocks(socksRequest, true);
     }
 
     @Override
     public void removeDefectSocks(SocksRequest socksRequest) {
-        decreaseSocks(socksRequest);
+
+        decreaseSocks(socksRequest, false);
     }
-    private void decreaseSocks (SocksRequest socksRequest) {
+    private void decreaseSocks (SocksRequest socksRequest, boolean isOutput) {
         validateRequest(socksRequest);
         Socks socks = toSock(socksRequest);
         int socksQuantity = mapOfSocks.getOrDefault(socks, 0);
@@ -68,28 +68,29 @@ public class SocksServiceImpl implements SocksService {
             mapOfSocks.put(socks, socksQuantity - socksRequest.getQuantity());
         }else {
             throw new InsufficientSocksQuantityException("На складе не осталось носков!");
+        } if (isOutput) {
+            auditService.recordOutputOperation(socks, socksRequest.getQuantity());
+        } else {
+            auditService.recordRemoveDefectedOperation(socks, socksRequest.getQuantity());
         }
     }
-
     @Override
     public int getSocksQuantity(Color color, Size size, Integer cottonMin, Integer cottonMax) {
         Integer total = 0;
-        if (color != null || size != null || cottonMin != null || cottonMax != null) {
             for (Map.Entry<Socks, Integer> entry : mapOfSocks.entrySet()) {
-                if (!entry.getKey().getColor().equals(color)) {
+                if (color != null && !entry.getKey().getColor().equals(color)) {
                     continue;
                 }
-                if (!entry.getKey().getSize().equals(size)) {
+                if (size != null && !entry.getKey().getSize().equals(size)) {
                     continue;
                 }
-                if (entry.getKey().getCottonPart() < cottonMin) {
+                if (cottonMin != null && entry.getKey().getCottonPart() < cottonMin) {
                     continue;
                 }
-                if (entry.getKey().getCottonPart() > cottonMax) {
+                if (cottonMax != null && entry.getKey().getCottonPart() > cottonMax) {
                     continue;
                 }
                 total += entry.getValue();
-            }
         }
         return total;
     }
@@ -108,8 +109,6 @@ public class SocksServiceImpl implements SocksService {
         private Socks toSock (SocksRequest socksRequest) {
         return new Socks(socksRequest.getColor(), socksRequest.getSize(), socksRequest.getCottonPart());
         }
-
-
     private void saveToFile() {
         try {
             List<SocksRequest> socksList = new ArrayList<>();
@@ -123,12 +122,10 @@ public class SocksServiceImpl implements SocksService {
             throw new RuntimeException();
         }
     }
-
     private SocksRequest mapToDto (Socks socks, Integer quantity){
         SocksRequest socksRequest = new SocksRequest(socks.getColor(), socks.getSize(), socks.getCottonPart(), quantity);
         return socksRequest;
     }
-
     @Override
     public void addSocksFromInputStream(InputStream inputStream) throws IOException {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
@@ -140,7 +137,6 @@ public class SocksServiceImpl implements SocksService {
             }
         }
     }
-
 }
 
 
