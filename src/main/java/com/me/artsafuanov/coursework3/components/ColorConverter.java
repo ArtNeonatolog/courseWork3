@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 public class ColorConverter implements Converter<String, Color> {
     @Override
     public Color convert (String source) {
+
         return Color.forValues(source);
     }
 }
