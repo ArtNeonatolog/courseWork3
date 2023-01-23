@@ -1,0 +1,1 @@
+[{"type":"ADD","localDateTime":"23.01.2023 20:55:18","quantity":5,"socks":{"color":"белый","size":38,"cottonPart":40}},{"type":"OUTPUT","localDateTime":"23.01.2023 20:56:30","quantity":2,"socks":{"color":"белый","size":38,"cottonPart":40}},{"type":"REMOVE_DEFECTED","localDateTime":"23.01.2023 20:59:30","quantity":1,"socks":{"color":"белый","size":38,"cottonPart":40}}]

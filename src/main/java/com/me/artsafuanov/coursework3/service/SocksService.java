@@ -16,5 +16,7 @@ public interface SocksService {
 
     int getSocksQuantity (Color color, Size size, Integer cottonMin, Integer cottonMax);
 
+    void saveToAuditFile();
+
     void addSocksFromInputStream(InputStream inputStream) throws IOException;
 }

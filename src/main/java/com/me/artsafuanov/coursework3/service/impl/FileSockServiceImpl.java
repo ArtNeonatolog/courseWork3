@@ -51,6 +51,6 @@ public class FileSockServiceImpl implements FileSockService {
     }
     @Override
     public File getSocksFile () {
-        return new File(socksFilePath + "/" + socksFileName );
+        return new File(socksFilePath + "/" + socksFileName);
     }
 }

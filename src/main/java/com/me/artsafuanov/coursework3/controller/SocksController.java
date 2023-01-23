@@ -17,6 +17,7 @@ public class SocksController {
     private final SocksService socksService;
 
     public SocksController(SocksService socksService) {
+
         this.socksService = socksService;
     }
 

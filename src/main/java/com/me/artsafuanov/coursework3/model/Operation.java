@@ -1,5 +1,10 @@
 package com.me.artsafuanov.coursework3.model;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.me.artsafuanov.coursework3.components.LocalDateTimeSerializer;
+
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Operation {
     private final TypeOfOperation type;
@@ -18,6 +23,7 @@ public class Operation {
         return type;
     }
 
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
     public LocalDateTime getLocalDateTime() {
         return localDateTime;
     }
@@ -29,4 +35,5 @@ public class Operation {
     public Socks getSocks() {
         return socks;
     }
+
 }

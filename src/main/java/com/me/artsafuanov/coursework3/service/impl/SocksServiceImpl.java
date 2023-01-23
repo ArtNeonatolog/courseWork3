@@ -4,9 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.me.artsafuanov.coursework3.dto.SocksRequest;
 import com.me.artsafuanov.coursework3.exception.InsufficientSocksQuantityException;
 import com.me.artsafuanov.coursework3.exception.InvalidSocksException;
-import com.me.artsafuanov.coursework3.model.Color;
-import com.me.artsafuanov.coursework3.model.Size;
-import com.me.artsafuanov.coursework3.model.Socks;
+import com.me.artsafuanov.coursework3.model.*;
 import com.me.artsafuanov.coursework3.service.SocksService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -24,16 +22,19 @@ import java.util.Map;
 public class SocksServiceImpl implements SocksService {
     private final Map<Socks, Integer> mapOfSocks = new HashMap<>();
     private final FileSockServiceImpl fileSockService;
+
+    private final FileAuditServiceImpl fileAuditService;
     private final AuditServiceImpl auditService;
-    public SocksServiceImpl(FileSockServiceImpl fileSockService, AuditServiceImpl auditService) {
+    public SocksServiceImpl(FileSockServiceImpl fileSockService, AuditServiceImpl auditService, FileAuditServiceImpl fileAuditService) {
         this.fileSockService = fileSockService;
         this.auditService = auditService;
+        this.fileAuditService = fileAuditService;
     }
-
     @PostConstruct
     private void init() {
         try {
             fileSockService.readFromFile();
+            fileAuditService.readFromAuditFile();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -46,8 +47,8 @@ public class SocksServiceImpl implements SocksService {
             mapOfSocks.put(socks, mapOfSocks.get(socks) + socksRequest.getQuantity());
         }else {
             mapOfSocks.put(socks, socksRequest.getQuantity());
-            saveToFile();
             auditService.recordAddOperation(socks, socksRequest.getQuantity());
+            saveToFile();
         }
     }
     @Override
@@ -57,7 +58,6 @@ public class SocksServiceImpl implements SocksService {
 
     @Override
     public void removeDefectSocks(SocksRequest socksRequest) {
-
         decreaseSocks(socksRequest, false);
     }
     private void decreaseSocks (SocksRequest socksRequest, boolean isOutput) {
@@ -70,8 +70,10 @@ public class SocksServiceImpl implements SocksService {
             throw new InsufficientSocksQuantityException("На складе не осталось носков!");
         } if (isOutput) {
             auditService.recordOutputOperation(socks, socksRequest.getQuantity());
+            saveToAuditFile();
         } else {
             auditService.recordRemoveDefectedOperation(socks, socksRequest.getQuantity());
+            saveToAuditFile();
         }
     }
     @Override
@@ -121,6 +123,17 @@ public class SocksServiceImpl implements SocksService {
         } catch (JsonProcessingException e) {
             throw new RuntimeException();
         }
+    }
+
+    @Override
+    public void saveToAuditFile() {
+        String json;
+        try {
+            json = new ObjectMapper().writeValueAsString(auditService.getOperations());
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        fileAuditService.saveToAuditFile(json);
     }
     private SocksRequest mapToDto (Socks socks, Integer quantity){
         SocksRequest socksRequest = new SocksRequest(socks.getColor(), socks.getSize(), socks.getCottonPart(), quantity);

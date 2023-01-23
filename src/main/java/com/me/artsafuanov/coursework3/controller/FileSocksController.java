@@ -24,7 +24,7 @@ public class FileSocksController {
     @Operation(summary = "Скачивание файла c информацией о товаре (носки)",
             description = "Данный метод предназначен для скачивания файла c информацией о товаре на складе"
     )
-    public ResponseEntity<InputStreamResource> downloadRecipeFile() throws FileNotFoundException {
+    public ResponseEntity<InputStreamResource> downloadSocksFile() throws FileNotFoundException {
         File file = fileSockService.getSocksFile();
         if (file.exists()) {
             InputStreamResource inputStreamResource = new InputStreamResource(new FileInputStream(file));
