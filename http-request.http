@@ -1,0 +1,12 @@
+
+POST http://localhost:8080/socks
+
+Content-Type: application/json
+{
+  "color": "WHITE",
+  "size": "M",
+  "cottonPart": 20,
+  "quantity": 50
+}
+
+###
