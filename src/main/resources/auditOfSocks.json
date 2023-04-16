@@ -1,0 +1,1 @@
+[{"type":"прием носков на склад","localDateTime":"23.01.2023 21:20:29","quantity":10,"socks":{"color":"красный","size":40,"cottonPart":50}},{"type":"выдача носков со склада","localDateTime":"23.01.2023 21:21:17","quantity":5,"socks":{"color":"красный","size":40,"cottonPart":50}}]
